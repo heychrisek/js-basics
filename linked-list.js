@@ -1,5 +1,29 @@
 // from https://blog.jcoglan.com/2007/07/23/writing-a-linked-list-in-javascript/
 
+// Usage
+//  var list = new LinkedList.Circular()
+//  list.append({value: "first val"})
+//  list.append({value: "second val"})
+//  list.append({value: "third val"})
+//  list.first      //=>
+//        { value: 'first val',
+//          prev:
+//           { value: 'third val',
+//             prev:
+//              { value: 'second val',
+//                prev: [Circular],
+//                next: [Circular] },
+//             next: [Circular] },
+//          next:
+//           { value: 'second val',
+//             prev: [Circular],
+//             next:
+//              { value: 'third val',
+//                prev: [Circular],
+//                next: [Circular] } } }
+// list.first.next     //=>
+//      same as above, but with value as "second val" and prev/next as "first val"/"third val"
+
 function LinkedList() {}
 LinkedList.prototype = {
   length: 0,
@@ -25,6 +49,22 @@ LinkedList.Circular.prototype.append = function(node) {
   }
   this.length++;
 };
+
+LinkedList.Circular.prototype.prepend = function(node) {
+  if (this.first === null) {
+    node.prev = node;
+    node.next = node;
+    this.first = node;
+    this.last = node;
+  } else {
+    node.prev = this.last;
+    node.next = this.first;
+    this.first.prev = node;
+    this.last.next = node;
+    this.first = node;
+  }
+  this.length++;
+}
 
 LinkedList.Circular.prototype.insertAfter = function(node, newNode) {
   newNode.prev = node;
