@@ -1,6 +1,3 @@
-// try sieve of eratosthenes next
-// https://github.com/mgechev/javascript-algorithms/blob/master/src/primes/sieve-of-eratosthenes.js
-
 function isPrime(number) {
   // 0 and 1 are not prime
   if (number < 2) {
